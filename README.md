@@ -1,15 +1,36 @@
-# ventipay-plugin-woocommerce
+# Plugin oficial de VentiPay para WooCommerce (beta)
 
-# EN DESARROLLO
+Este plugin permite aceptar pagos con VentiPay en tiendas WooCommerce
 
-# Instalación
+## Beta
 
-* Instalar Docker para macOS
-* En Docker instalar la imagen llamada "wordpress" (https://hub.docker.com/_/wordpress)
-* Al instalar y configurar Wordpress, ingresar al administrador en la URL /wp-admin
-* En el administrador, instalar el plugin "WooCommerce" (https://docs.woocommerce.com/document/installing-uninstalling-woocommerce/)
-* Con WooCommerce instalado, se debe instalar este plugin "zipeando" el directorio completo y subiendolo desde la sección "Plugins"
-* Habilitar el plugin "VENTI Pay"
-* Luego en la sección "Payments" de la configuración de WooCommerce, se debe configurar la API Key de VENTI Pay
+Este plugin se encuentra en beta.
 
-Nota: cada vez que se quiera hacer un cambio, se debe zipear el contenido del directorio y volver a subirlo. Wordpress dará la opción de reemplazar el contenido del plugin ya instalado.
+## Requisitos
+
+* PHP 7+
+* WooCommerce 5.1.0
+
+## Versionamiento
+
+Usamos [SemVer](https://semver.org) para organizar el versionamiento, así que puedes actualizar de manera segura y regular cualquier versión menor y de patch.
+
+## Changelog
+
+Usamos la [página de releases](https://github.com/ventipay/ventipay-plugin-woocommerce/releases) de GitHub para documentar los cambios.
+
+## Instalación
+
+Debes descargar la última versión disponible del plugin desde la [página de releases](https://github.com/ventipay/ventipay-plugin-woocommerce/releases) e instalarlo como cualquier otro plugin de WordPress y WooCommerce.
+
+Recuerda descargar la versión comprimida como .zip.
+
+## Uso
+
+Lo primero es conseguir tu API Key. Puedes obtenerla desde el [Dashboard](https://dashboard.ventipay.com/).
+
+Luego, en la sección Pagos de la configuración de WooCommerce, debes habilitar el medio de pago "VentiPay", configurar tu API Key y decidir si trabajarás en modo live o test.
+
+## Licencia
+
+MIT
