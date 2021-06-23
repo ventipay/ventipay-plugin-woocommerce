@@ -5,7 +5,7 @@
  * Description: Acepta pagos y suscripciones con tarjetas.
  * Author: VentiPay
  * Author URI: https://www.ventipay.com/
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 4.4
  * Tested up to: 5.6
  * WC requires at least: 3.0
