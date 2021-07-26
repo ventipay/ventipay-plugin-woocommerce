@@ -17,9 +17,7 @@ Usamos la [página de releases](https://github.com/ventipay/ventipay-plugin-wooc
 
 ## Instalación
 
-Debes descargar la última versión disponible del plugin desde la [página de releases](https://github.com/ventipay/ventipay-plugin-woocommerce/releases) e instalarlo como cualquier otro plugin de WordPress y WooCommerce.
-
-Recuerda descargar la versión comprimida como .zip.
+Debes instalar la última versión disponible del plugin desde el directorio de plugins de WordPress. Búscalo como "VentiPay" y sigue las instrucciones de instalación.
 
 ## Uso
 

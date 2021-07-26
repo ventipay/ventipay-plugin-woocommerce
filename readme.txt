@@ -2,8 +2,8 @@
 Contributors: VentiPay
 Tags: ventipay, transbank, webpay
 Requires at least: 5.7
-Tested up to: 5.7
-Stable tag: 1.0.2
+Tested up to: 5.8
+Stable tag: 1.0.3
 Requires PHP: 7.0
 License: MIT
 License URI: https://github.com/ventipay/ventipay-plugin-woocommerce/blob/main/LICENSE
@@ -29,9 +29,7 @@ Usamos la [página de releases](https://github.com/ventipay/ventipay-plugin-wooc
 
 ## Instalación
 
-Debes descargar la última versión disponible del plugin desde la [página de releases](https://github.com/ventipay/ventipay-plugin-woocommerce/releases) e instalarlo como cualquier otro plugin de WordPress y WooCommerce.
-
-Recuerda descargar la versión comprimida como .zip.
+Debes instalar la última versión disponible del plugin desde el directorio de plugins de WordPress. Búscalo como "VentiPay" y sigue las instrucciones de instalación.
 
 ## Uso
 
