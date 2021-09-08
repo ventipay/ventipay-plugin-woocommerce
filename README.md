@@ -1,6 +1,6 @@
-# Plugin oficial de VentiPay para WooCommerce
+# Plugin oficial de Venti para WooCommerce
 
-Este plugin permite aceptar pagos con VentiPay en tiendas WooCommerce
+Acepta pagos con Venti en tiendas WooCommerce
 
 ## Requisitos
 
@@ -23,7 +23,7 @@ Debes instalar la última versión disponible del plugin desde el directorio de 
 
 Lo primero es conseguir tu API Key. Puedes obtenerla desde el [Dashboard](https://dashboard.ventipay.com/).
 
-Luego, en la sección Pagos de la configuración de WooCommerce, debes habilitar el medio de pago "VentiPay", configurar tu API Key y decidir si trabajarás en modo live o pruebas.
+Luego, en la sección Pagos de la configuración de WooCommerce, debes habilitar el método de pago "Venti", configurar tu API Key y decidir si trabajarás en modo live o pruebas.
 
 ## Licencia
 
