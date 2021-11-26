@@ -1,0 +1,18 @@
+.ventipay-bnpl-product-button-container {
+  margin: 0px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.ventipay-bnpl-product-button-image-container {
+  margin: 0px;
+  padding: 0px;
+  display: block;
+}
+
+.ventipay-bnpl-product-button-text-container {
+  margin: 0px;
+  margin-top: 5px;
+  padding: 0px;
+  display: block;
+}
