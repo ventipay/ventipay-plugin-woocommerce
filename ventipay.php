@@ -39,7 +39,6 @@ function ventipay_add_gateway_class($methods)
 /**
  * Hooks
  */
-add_filter('woocommerce_after_add_to_cart_button' , 'venti_show_bnpl_button_in_product_page', 5);
 add_filter('woocommerce_payment_gateways', 'ventipay_add_gateway_class');
 add_action('plugins_loaded', 'ventipay_init_gateway_class');
 add_action('wp_enqueue_scripts', 'ventipay_setup_scripts');
