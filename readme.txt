@@ -3,7 +3,7 @@ Contributors: VentiPay
 Tags: ventipay, transbank, webpay
 Requires at least: 5.7
 Tested up to: 5.8
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 Requires PHP: 7.0
 License: MIT
 License URI: https://github.com/ventipay/ventipay-plugin-woocommerce/blob/main/LICENSE
