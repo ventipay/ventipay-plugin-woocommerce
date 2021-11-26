@@ -61,7 +61,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
           'ventipay'
         ),
         'default' => __(
-          'Tarjeta de Crédito/Débito/Prepago',
+          'Venti: Tarjeta de Crédito/Débito/Prepago',
           'ventipay'
         ),
         'desc_tip' => true,
@@ -79,15 +79,15 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
         ),
       ],
       'testmode' => [
-        'title' => __('Habilitar modo Pruebas', 'ventipay'),
-        'label' => __('Si habilitas esta opción podrás hacer pruebas de integración sin aceptar pagos reales.', 'ventipay'),
+        'title' => __('Habilitar Modo Pruebas', 'ventipay'),
+        'label' => __('Atención: Si habilitas esta opción no se realizarán cargos reales a los clientes. Habilita este modo solo si necesitas realizar pruebas de integración.', 'ventipay'),
         'type' => 'checkbox',
         'default' => 'yes',
       ],
       'api_credentials_note' => [
         'title' => __('Credenciales API', 'ventipay'),
         'type' => 'title',
-        'description' => __('Podrás encontrar tus API Keys en la sección Desarrolladores del Dashboard', 'ventipay'),
+        'description' => __('Podrás encontrar tus API Keys en la sección Desarrolladores > API del Dashboard', 'ventipay'),
       ],
       'test_api_key' => [
         'title' => __('API Key modo Pruebas', 'ventipay'),
@@ -232,97 +232,92 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
 
   public function ventipay_process_ipn()
   {
-    try {
-      $order = wc_get_order($_GET['order_id']);
+    $order = wc_get_order($_GET['order_id']);
 
-      /**
-       * Check if it's a valid order
-       */
-      if (!isset($order) || !$order->get_id()) {
-        header('HTTP/1.1 400 Bad Request (Order ID Not Found)');
-        return;
-      }
-
-      /**
-       * The order is already paid so we redirect the user to a success page
-       */
-      if ($order->is_paid()) {
-        header('HTTP/1.1 200 OK (Order Is Paid)');
-        return;
-      }
-
-      /**
-       * The order is valid and it's ready to be paid
-       */
-      if ($order->needs_payment()) {
-        /**
-         * Stored payment ID
-         */
-        $meta_payment_id = $order->get_meta('ventipay_payment_id');
-
-        /**
-         * Recieved payment ID
-         */
-        $posted_body = json_decode(file_get_contents('php://input'));
-        $posted_payment_id = isset($posted_body) && !empty($posted_body->data) && !empty($posted_body->data->id) ? $posted_body->data->id : null;
-
-        /**
-         * We check if the stored ID looks like a valid one and both (stored and received) are equal
-         * This is a simple check, however it should be enough to control MITM tampering.
-         * Eventually we could check for a valid signature just like regular webhooks
-         */
-        if (!empty($meta_payment_id)
-          && substr($meta_payment_id, 0, 4) === 'pay_'
-          && !empty($posted_payment_id)
-          && $meta_payment_id === $posted_payment_id)
-        {
-          /**
-           * We attempt to capture the payment.
-           * If it wasn't authorized or it's already captured, the API will sent an error.
-           */
-          $capture_payment = wp_remote_post(
-            self::API_ENDPOINT . '/payments/' . $meta_payment_id . '/capture',
-            [
-              'headers' => [
-                'Authorization' => 'Basic ' . base64_encode($this->api_key . ':'),
-                'Content-Type' => 'application/json',
-              ],
-              'timeout' => 120,
-            ]
-          );
-
-          if (!is_wp_error($capture_payment)) {
-            /**
-             * Captured payment data
-             */
-            $captured_payment = json_decode(wp_remote_retrieve_body($capture_payment));
-
-            /**
-             * Check if the payment was properly captured
-             */
-            if (isset($captured_payment)
-              && !empty($captured_payment->status)
-              && !$captured_payment->refunded
-              && !$captured_payment->disputed
-              && 'succeeded' === $captured_payment->status)
-            {
-              $order->payment_complete();
-              header('HTTP/1.1 200 OK (Payment Completed)');
-              return;
-            }
-          }
-          header('HTTP/1.1 400 Bad Request (Unable To Capture Payment)');
-          return;
-        }
-        $order->update_status('failed');
-        header('HTTP/1.1 400 Bad Request (Posted Payment ID Mismatch)');
-        return;
-      }
-      header('HTTP/1.1 400 Bad Request (Order Not Ready To Be Paid)');
+    /**
+     * Check if it's a valid order
+     */
+    if (!isset($order) || !$order->get_id()) {
+      header('HTTP/1.1 400 Bad Request (Order ID Not Found)');
       return;
-    } catch (Exception $e) {
-      header('HTTP/1.1 500 Server Error');
     }
+
+    /**
+     * The order is already paid so we redirect the user to a success page
+     */
+    if ($order->is_paid()) {
+      header('HTTP/1.1 200 OK (Order Is Paid)');
+      return;
+    }
+
+    /**
+     * The order is valid and it's ready to be paid
+     */
+    if ($order->needs_payment()) {
+      /**
+       * Stored payment ID
+       */
+      $meta_payment_id = $order->get_meta('ventipay_payment_id');
+
+      /**
+       * Recieved payment ID
+       */
+      $posted_body = json_decode(file_get_contents('php://input'));
+      $posted_payment_id = isset($posted_body) && !empty($posted_body->data) && !empty($posted_body->data->id) ? $posted_body->data->id : null;
+
+      /**
+       * We check if the stored ID looks like a valid one and both (stored and received) are equal
+       * This is a simple check, however it should be enough to control MITM tampering.
+       * Eventually we could check for a valid signature just like regular webhooks
+       */
+      if (!empty($meta_payment_id)
+        && substr($meta_payment_id, 0, 4) === 'pay_'
+        && !empty($posted_payment_id)
+        && $meta_payment_id === $posted_payment_id)
+      {
+        /**
+         * We attempt to capture the payment.
+         * If it wasn't authorized or it's already captured, the API will sent an error.
+         */
+        $capture_payment = wp_remote_post(
+          self::API_ENDPOINT . '/payments/' . $meta_payment_id . '/capture',
+          [
+            'headers' => [
+              'Authorization' => 'Basic ' . base64_encode($this->api_key . ':'),
+              'Content-Type' => 'application/json',
+            ],
+            'timeout' => 120,
+          ]
+        );
+
+        if (!is_wp_error($capture_payment)) {
+          /**
+           * Captured payment data
+           */
+          $captured_payment = json_decode(wp_remote_retrieve_body($capture_payment));
+
+          /**
+           * Check if the payment was properly captured
+           */
+          if (isset($captured_payment)
+            && !empty($captured_payment->status)
+            && !$captured_payment->refunded
+            && !$captured_payment->disputed
+            && 'succeeded' === $captured_payment->status)
+          {
+            $order->payment_complete();
+            header('HTTP/1.1 200 OK (Payment Completed)');
+            return;
+          }
+        }
+        header('HTTP/1.1 400 Bad Request (Unable To Capture Payment)');
+        return;
+      }
+      header('HTTP/1.1 400 Bad Request (Posted Payment ID Mismatch)');
+      return;
+    }
+    header('HTTP/1.1 400 Bad Request (Order Not Ready To Be Paid)');
+    return;
   }
 
   public function ventipay_thankyou_text($var, $order_id)
