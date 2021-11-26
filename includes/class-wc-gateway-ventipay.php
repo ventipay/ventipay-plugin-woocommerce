@@ -16,7 +16,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
   public function __construct()
   {
     $this->id = 'ventipay';
-    $this->icon = plugin_dir_url(__FILE__) . '../assets/images/plugin-woocommerce-icon-cards.png';
+    $this->icon = plugin_dir_url(__FILE__) . '../assets/images/plugin-woocommerce-icon-cards.svg';
     $this->has_fields = false;
     $this->method_title = __('Venti', 'ventipay');
     $this->method_description = __(
