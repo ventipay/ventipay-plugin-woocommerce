@@ -16,7 +16,7 @@ class WC_Gateway_VentiPay_BNPL extends WC_Payment_Gateway
   public function __construct()
   {
     $this->id = 'ventipay_bnpl';
-    $this->icon = plugin_dir_url(__FILE__) . '../assets/images/plugin-woocommerce-icon-bnpl.svg';
+    $this->icon = 'https://pay.ventipay.com/assets/apps/woocommerce/plugin-woocommerce-icon-bnpl.svg';
     $this->has_fields = false;
     $this->method_title = __('Venti', 'ventipay');
     $this->method_description = __(
