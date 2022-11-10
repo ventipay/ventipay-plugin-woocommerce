@@ -16,11 +16,11 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
   public function __construct()
   {
     $this->id = 'ventipay';
-    $this->icon = 'https://pay.ventipay.com/assets/apps/woocommerce/plugin-woocommerce-icon-cards.svg';
+    $this->icon = 'https://wallet.ventipay.com/assets/apps/woocommerce/plugin-woocommerce-icon-checkout.svg';
     $this->has_fields = false;
-    $this->method_title = __('Venti', 'ventipay');
+    $this->method_title = __('VentiPay', 'ventipay');
     $this->method_description = __(
-      'Acepta pagos con tarjetas',
+      'Paga como quieras',
       'ventipay'
     );
     $this->supports = ['products'];
@@ -48,7 +48,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
     $this->form_fields = [
       'enabled' => [
         'title' => __('Habilitar/Deshabilitar', 'ventipay'),
-        'label' => __('Aceptar pagos con Venti', 'ventipay'),
+        'label' => __('Aceptar pagos con VentiPay', 'ventipay'),
         'type' => 'checkbox',
         'description' => '',
         'default' => 'no',
@@ -61,7 +61,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
           'ventipay'
         ),
         'default' => __(
-          'Venti: Tarjeta de Crédito/Débito/Prepago',
+          'VentiPay',
           'ventipay'
         ),
         'desc_tip' => true,
@@ -74,7 +74,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
           'ventipay'
         ),
         'default' => __(
-          'Paga con tarjetas de Crédito, Débito o Prepago. Procesado por Venti.',
+          'Paga en cuotas con débito y crédito, y transferencia bancaria.',
           'ventipay'
         ),
       ],
@@ -90,12 +90,12 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
         'description' => __('Podrás encontrar tus API Keys en la sección Desarrolladores > API del Dashboard', 'ventipay'),
       ],
       'test_api_key' => [
-        'title' => __('API Key modo Pruebas', 'ventipay'),
+        'title' => __('API Key (llave secreta) modo test', 'ventipay'),
         'type' => 'text',
         'placeholder' => 'key_test_...',
       ],
       'live_api_key' => [
-        'title' => __('API Key modo Live', 'ventipay'),
+        'title' => __('API Key (llave secreta) modo live', 'ventipay'),
         'type' => 'text',
         'placeholder' => 'key_live_...',
       ],
@@ -131,7 +131,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
        * We attempt to create the payment
        */
       $create_payment = wp_remote_post(
-        self::API_ENDPOINT . '/payments',
+        self::API_ENDPOINT . '/checkouts',
         [
           'headers' => [
             'Authorization' => 'Basic ' . base64_encode($this->api_key . ':'),
@@ -140,15 +140,20 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
           'timeout' => 45,
           'data_format' => 'body',
           'body' => wp_json_encode([
-            'amount' => $amount,
+            'authorize' => true,
             'currency' => $currency,
-            'capture' => false,
             'cancel_url' => $return_url,
             'cancel_url_method' => 'post',
+            'items' => array(
+              [
+                'unit_price' => $amount,
+                'quantity' => 1
+              ],
+            ),
+            'notification_url' => $notification_url,
+            'notification_events' => ['checkout.paid'],
             'success_url' => $return_url,
             'success_url_method' => 'post',
-            'notification_url' => $notification_url,
-            'notification_events' => ['payment.authorized'],
             'metadata' => [
               'wp_order_id' => $order_id,
             ],
@@ -167,17 +172,17 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
          */
         if (isset($new_payment)
           && !empty($new_payment->object)
-          && 'payment' === $new_payment->object
+          && 'checkout' === $new_payment->object
           && !empty($new_payment->id)
           && !empty($new_payment->status)
-          && 'requires_authorization' === $new_payment->status
+          && 'unpaid' === $new_payment->status
           && !empty($new_payment->url))
         {
           /**
            * We add the payment ID to the order metadata
            */
           $order->add_meta_data(
-            'ventipay_payment_id',
+            'ventipay_checkout_id',
             $new_payment->id,
             true
           );
@@ -257,7 +262,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
       /**
        * Stored payment ID
        */
-      $meta_payment_id = $order->get_meta('ventipay_payment_id');
+      $meta_payment_id = $order->get_meta('ventipay_checkout_id');
 
       /**
        * Recieved payment ID
@@ -271,16 +276,15 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
        * Eventually we could check for a valid signature just like regular webhooks
        */
       if (!empty($meta_payment_id)
-        && substr($meta_payment_id, 0, 4) === 'pay_'
+        && substr($meta_payment_id, 0, 4) === 'chk_'
         && !empty($posted_payment_id)
         && $meta_payment_id === $posted_payment_id)
       {
         /**
-         * We attempt to capture the payment.
-         * If it wasn't authorized or it's already captured, the API will sent an error.
+         * We check the checkout status.
          */
-        $capture_payment = wp_remote_post(
-          self::API_ENDPOINT . '/payments/' . $meta_payment_id . '/capture',
+        $capture_payment = wp_remote_get(
+          self::API_ENDPOINT . '/checkouts/' . $meta_payment_id,
           [
             'headers' => [
               'Authorization' => 'Basic ' . base64_encode($this->api_key . ':'),
@@ -297,13 +301,13 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
           $captured_payment = json_decode(wp_remote_retrieve_body($capture_payment));
 
           /**
-           * Check if the payment was properly captured
+           * Check if the payment was properly captured/paid
            */
           if (isset($captured_payment)
             && !empty($captured_payment->status)
             && !$captured_payment->refunded
             && !$captured_payment->disputed
-            && 'succeeded' === $captured_payment->status)
+            && 'paid' === $captured_payment->status)
           {
             $order->payment_complete();
             header('HTTP/1.1 200 OK (Payment Completed)');
@@ -324,7 +328,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
   {
     $order = wc_get_order($order_id);
     if (isset($order) && ($order->get_id())) {
-      $meta_payment_id = $order->get_meta('ventipay_payment_id');
+      $meta_payment_id = $order->get_meta('ventipay_checkout_id');
       if (!empty($meta_payment_id)) {
         if ('pending' === $order->get_status()) {
           $message = [
@@ -345,7 +349,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
             '<div class="woocommerce-message">',
             '<span>',
             __(
-              '¡Tu pago ha sido acreditado!',
+              '¡Tu pago está listo!',
               'ventipay'
             ),
             '</span>',
