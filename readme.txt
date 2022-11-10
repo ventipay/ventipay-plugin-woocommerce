@@ -1,18 +1,18 @@
 === VentiPay ===
 Contributors: VentiPay
-Tags: ventipay, transbank, webpay
+Tags: ventipay, transbank, webpay, bnpl, chile
 Requires at least: 5.7
 Tested up to: 5.8
-Stable tag: 1.2.1
+Stable tag: 2.0.0
 Requires PHP: 7.0
 License: MIT
 License URI: https://github.com/ventipay/ventipay-plugin-woocommerce/blob/main/LICENSE
 
-Plugin oficial de Venti para WooCommerce
+Plugin oficial de VentiPay para WooCommerce
 
 == Description ==
 
-Acepta pagos con Venti en tiendas WooCommerce
+Acepta pagos con VentiPay en tiendas WooCommerce
 
 ## Requisitos
 
@@ -35,7 +35,7 @@ Debes instalar la última versión disponible del plugin desde el directorio de 
 
 Lo primero es conseguir tu API Key. Puedes obtenerla desde el [Dashboard](https://dashboard.ventipay.com/).
 
-Luego, en la sección Pagos de la configuración de WooCommerce, debes habilitar el método de pago "Venti", configurar tu API Key y decidir si trabajarás en modo live o pruebas.
+Luego, en la sección Pagos de la configuración de WooCommerce, debes habilitar el método de pago "VentiPay", configurar tu API Key y decidir si trabajarás en modo live o test.
 
 ## Licencia
 

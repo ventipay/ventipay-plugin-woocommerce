@@ -2,10 +2,10 @@
 /**
  * Plugin Name: VentiPay
  * Plugin URI: https://docs.ventipay.com/
- * Description: Acepta pagos en cuotas sin intereses y pagos con tarjeta.
+ * Description: Cobra como quieras
  * Author: VentiPay
  * Author URI: https://www.ventipay.com/
- * Version: 1.2.1
+ * Version: 2.0.0
  * Requires at least: 5.7
  * Tested up to: 5.8
  * WC requires at least: 5.0
