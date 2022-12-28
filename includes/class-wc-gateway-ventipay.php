@@ -126,6 +126,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
         add_query_arg('wc-api', 'ventipay', home_url('/'))
       );
       $return_url = $this->get_return_url($order);
+      $cancel_url = $order->get_cancel_order_url();
 
       /**
        * We attempt to create the payment
@@ -142,7 +143,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
           'body' => wp_json_encode([
             'authorize' => true,
             'currency' => $currency,
-            'cancel_url' => $return_url,
+            'cancel_url' => $cancel_url,
             'cancel_url_method' => 'post',
             'items' => array(
               [
@@ -242,7 +243,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
     /**
      * Check if it's a valid order
      */
-    if (!isset($order) || !$order->get_id()) {
+    if (!isset($order) || !$order || !is_a($order, 'WC_Order') || !$order->get_id()) {
       header('HTTP/1.1 400 Bad Request (Order ID Not Found)');
       return;
     }
@@ -327,7 +328,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
   public function ventipay_thankyou_text($var, $order_id)
   {
     $order = wc_get_order($order_id);
-    if (isset($order) && ($order->get_id())) {
+    if (isset($order) && $order && is_a($order, 'WC_Order') && ($order->get_id())) {
       $meta_payment_id = $order->get_meta('ventipay_checkout_id');
       if (!empty($meta_payment_id)) {
         if ('pending' === $order->get_status()) {
