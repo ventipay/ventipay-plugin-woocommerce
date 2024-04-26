@@ -123,7 +123,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
       $notification_url = add_query_arg(
         'order_id',
         $order_id,
-        add_query_arg('wc-api', 'ventipay', home_url('/'))
+        home_url('/wc-api/ventipay/')
       );
       $return_url = $this->get_return_url($order);
       $cancel_url = $order->get_cancel_order_url();
