@@ -5,7 +5,7 @@ Acepta pagos con VentiPay en tiendas WooCommerce
 ## Requisitos
 
 * PHP 7+
-* WooCommerce 5.1.0
+* WooCommerce 8.0.0
 
 ## Versionamiento
 

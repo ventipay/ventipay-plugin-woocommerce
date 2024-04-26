@@ -1,8 +1,8 @@
 === VentiPay ===
 Contributors: VentiPay
 Tags: ventipay, transbank, webpay, bnpl, chile
-Requires at least: 5.7
-Tested up to: 6.1
+Requires at least: 6.5
+Tested up to: 6.5.2
 Stable tag: 2.0.3
 Requires PHP: 7.0
 License: MIT
@@ -17,7 +17,7 @@ Acepta pagos con VentiPay en tiendas WooCommerce
 ## Requisitos
 
 * PHP 7+
-* WooCommerce 5.1.0
+* WooCommerce 8.0.0
 
 ## Versionamiento
 
