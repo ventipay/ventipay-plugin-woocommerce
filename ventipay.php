@@ -68,7 +68,11 @@ function ventipay_declare_features_util_compatibility()
   }
 
   \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, true);
-  \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+
+  // checking woocommerces version for hpos
+  if (version_compare(WC_VERSION, '8.2', '>=')) {
+    \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+  }
 }
 
 function ventipay_blocks_loaded()
