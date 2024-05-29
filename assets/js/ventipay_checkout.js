@@ -32,10 +32,6 @@ const Content = () => (
   element.createElement(element.Fragment, {}, settings.description || '')
 )
 
-console.log(Object(window.wp.element.createElement)(Content, null))
-
-Object(window.wp.element.createElement)
-
 const Block_Gateway = {
     name: 'ventipay',
     label: Label(),
