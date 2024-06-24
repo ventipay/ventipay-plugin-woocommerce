@@ -332,8 +332,15 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
       $meta_payment_id = $order->get_meta('ventipay_checkout_id');
       if (!empty($meta_payment_id)) {
         if ('pending' === $order->get_status()) {
+          ?>
+            <script>
+              setTimeout(() => {
+                window.location.reload(true)
+              }, 10000)
+            </script>
+          <?php
+
           $message = [
-            '<script type="text/javascript">setTimeout(function() { window.location.reload(true); }, 10000);</script>',
             '<div class="woocommerce-info">',
             '<span>',
             __(
