@@ -33,15 +33,15 @@ const Content = () => (
 )
 
 const Block_Gateway = {
-    name: 'ventipay',
-    label: Label(),
-    content: Content(),
-    edit: Content(),
-    canMakePayment: () => true,
-    ariaLabel: settings.title,
-    supports: {
-        features: settings.supports
-    }
+  name: 'ventipay',
+  label: Label(),
+  content: Content(),
+  edit: Content(),
+  canMakePayment: () => true,
+  ariaLabel: settings.title,
+  supports: {
+    features: settings.supports
+  }
 }
 
 window.wc.wcBlocksRegistry.registerPaymentMethod(Block_Gateway)
