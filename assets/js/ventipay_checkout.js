@@ -18,10 +18,6 @@ const Label = () => (
       'img',
       {
         src: settings.icon,
-        style: {
-          height: '70px',
-          width: '70px'
-        }
       },
       null
     )
