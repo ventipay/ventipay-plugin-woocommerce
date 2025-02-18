@@ -5,7 +5,7 @@
  * Description: Cobra como quieras
  * Author: VentiPay
  * Author URI: https://www.ventipay.com/
- * Version: 2.2.1
+ * Version: 2.2.2
  * Requires at least: 6.5
  * Tested up to: 6.5.3
  * WC requires at least: 8.0.0
