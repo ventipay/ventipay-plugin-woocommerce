@@ -18,7 +18,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
     $this->id = 'ventipay';
     $this->icon = 'https://ventipay.com/assets/apps/woocommerce/plugin-woocommerce-icon-checkout.png';
     $this->has_fields = false;
-    $this->method_title = __('VentiPay', 'ventipay');
+    $this->method_title = __('Venti', 'ventipay');
     $this->method_description = __(
       'Paga como quieras',
       'ventipay'
@@ -48,7 +48,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
     $this->form_fields = [
       'enabled' => [
         'title' => __('Habilitar/Deshabilitar', 'ventipay'),
-        'label' => __('Aceptar pagos con VentiPay', 'ventipay'),
+        'label' => __('Aceptar pagos con Venti', 'ventipay'),
         'type' => 'checkbox',
         'description' => '',
         'default' => 'no',
@@ -61,7 +61,7 @@ class WC_Gateway_VentiPay extends WC_Payment_Gateway
           'ventipay'
         ),
         'default' => __(
-          'VentiPay',
+          'Venti',
           'ventipay'
         ),
         'desc_tip' => true,
