@@ -18,6 +18,13 @@ const Label = () => (
       'img',
       {
         src: settings.icon,
+        style: {
+          width: '70px',         
+          height: 'auto',        
+          maxHeight: '28px',  
+          objectFit: 'contain',
+          flexShrink: 0          
+        }
       },
       null
     )
