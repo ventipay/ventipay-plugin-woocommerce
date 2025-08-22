@@ -18,13 +18,22 @@ const Label = () => (
       'img',
       {
         src: settings.icon,
-        style: {
-          width: '70px',         
-          height: 'auto',        
-          maxHeight: '28px',  
-          objectFit: 'contain',
-          flexShrink: 0          
-        }
+        ref: (el) => {
+          if (el) {
+            el.setAttribute(
+              'style',
+              ` height: 45px !important;
+                width: 45px !important;
+                max-height: none !important;
+                max-width: 100% !important;
+                vertical-align: middle !important;
+                background-repeat: no-repeat !important;
+                background-size: cover !important;
+                shape-margin: 1rem !important;
+              `
+            )
+          }
+        },
       },
       null
     )
