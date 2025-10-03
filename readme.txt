@@ -3,7 +3,7 @@ Contributors: VentiPay
 Tags: ventipay, transbank, webpay, bnpl, chile
 Requires at least: 6.5
 Tested up to: 6.5.3
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 Requires PHP: 7.0
 License: MIT
 License URI: https://github.com/ventipay/ventipay-plugin-woocommerce/blob/main/LICENSE
