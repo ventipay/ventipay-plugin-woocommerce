@@ -25,7 +25,7 @@ const Label = () => (
               ` height: 45px !important;
                 width: 45px !important;
                 max-height: none !important;
-                max-width: 100% !important;
+                max-width: none !important;
                 vertical-align: middle !important;
                 background-repeat: no-repeat !important;
                 background-size: cover !important;
