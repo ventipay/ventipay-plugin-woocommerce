@@ -5,11 +5,11 @@
  * Description: Cobra como quieras
  * Author: VentiPay
  * Author URI: https://www.ventipay.com/
- * Version: 2.3.5
+ * Version: 2.4.0
  * Requires at least: 6.5
- * Tested up to: 6.5.3
+ * Tested up to: 7.0.2
  * WC requires at least: 8.0.0
- * WC tested up to: 8.9.1
+ * WC tested up to: 10.9.4
  * Text Domain: ventipay
  * Domain Path: /languages
  */
